@@ -1,0 +1,50 @@
+version: '3.5'
+
+services:
+
+  elb:
+    image: bostonuniversity/elb-simulator:latest
+    ports: "443:443"
+    environment:
+      - REMOTE_URL: "http://webserver"
+    depends_on:
+      - webserver
+    networks:
+      - frontend
+
+  webserver:
+    image: ghcr.io/ucfopen/materia:webserver-v9.0.1
+    platform: linux/amd64
+    networks:
+      - frontend
+      - backend
+    depends_on:
+      - app
+    volumes:
+      - public:/var/www/html/public:ro
+
+  app:
+    image: ghcr.io/ucfopen/materia:app-v9.0.1
+    environment:
+      # View Materia README for env settings
+      - DATABASE_URL=mysql://materia:odin@host.docker.internal:3306/materia
+      - LTI_SECRET=materia-lti-secret
+      - SYSTEM_EMAIL=noReply@materia.edu
+      - AUTH_SALT=111b776e5f862058e2e075b640b3de5fb601d0ac57639c733a2d10edffd2a3d5
+      - AUTH_SIMPLEAUTH_SALT=33e0d379060e3877d634632853c10a70dff9710b751e5af00a0f637884df417e
+      - CIPHER_KEY=a39fc39ab2e46270a523ee440bfd7f6d8028260894a7ec9dfe491daa44ad010b
+    volumes:
+      - public:/var/www/html/public
+      - uploaded_media:/var/www/html/fuel/packages/materia/media
+    networks:
+      - backend
+
+networks:
+  frontend:
+    name: materia_frontend
+  backend:
+    name: materia_backend
+
+volumes:
+  uploaded_media: {}
+  public: {}
