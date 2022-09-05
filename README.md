@@ -1,5 +1,6 @@
 ## Production Ready Materia Server
 
+This is super cut and dry example of what it takes to build and host a production ready Materia server.
 
 ### Resources
 * [Official Docs](https://ucfopen.github.io/Materia-Docs/)
