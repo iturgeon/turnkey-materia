@@ -28,19 +28,19 @@ This is super cut and dry example of what it takes to build and host a productio
 2. Setup Webserver
    Note that this install assumes there is a load balancer in front of the webserver that is responsible for https, but will talk to the webserver over port 80.  We'll use the [nginx config built into the docker image](https://github.com/ucfopen/Materia/blob/v9.0.1/docker/config/nginx/nginx-production.conf).  If you want to the webserver to handle secure connections directly, you may find some useful hints in nginx-dev.conf.  You'll need a cert, and you'll need to provide it to the container in one way or another.
 
-3. Migrate Database and Initialize.
-   Set up the database so that it has the required tables and data.  Materia uses database migration files handled by our PHP framework for this.  This command will also initialize a few settings and users to get you started. Watch the output so you can log in with a randomized password!
-   ```bash
-   docker-compose run --rm app composer oil-install-quiet
-   ```
-
-4. Generate a few random keys
+3. Generate a few random keys
    FuelPHP asks for some randomized seeds to do some of it's internal hashing and encryption.  Set these by providing values for AUTH_SALT, AUTH_SIMPLEAUTH_SALT, and CIPHER_KEY defined in the docker-compose file.
 
    Generate your 3 random id using the output from:
 	```bash
 	docker-compose run --rm app php -r "echo(sodium_bin2hex(random_bytes(SODIUM_CRYPTO_STREAM_KEYBYTES)));"
 	```
+
+4. Migrate Database and Initialize.
+   Set up the database so that it has the required tables and data.  Materia uses database migration files handled by our PHP framework for this.  This command will also initialize a few settings and users to get you started. Watch the output so you can log in with a randomized password!
+   ```bash
+   docker-compose run --rm app composer oil-install-quiet
+   ```
 
 5. Run Materia
    Now we can rely on docker compose to download a few containers and start Materia.

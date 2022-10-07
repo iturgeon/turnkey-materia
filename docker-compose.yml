@@ -4,9 +4,10 @@ services:
 
   elb:
     image: bostonuniversity/elb-simulator:latest
-    ports: "443:443"
+    ports:
+     - "443:443"
     environment:
-      - REMOTE_URL: "http://webserver"
+      - REMOTE_URL=http://webserver
     depends_on:
       - webserver
     networks:
