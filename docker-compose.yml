@@ -5,9 +5,9 @@ services:
   elb:
     image: bostonuniversity/elb-simulator:latest
     ports:
-     - "443:443"
+      - "443:443"
     environment:
-      - REMOTE_URL=http://webserver
+      - REMOTE_URL=http://webserver # 'webserver' here uses docker-compose's dns alias to the ip of the webserver container below
     depends_on:
       - webserver
     networks:
@@ -22,7 +22,7 @@ services:
     depends_on:
       - app
     volumes:
-      - public:/var/www/html/public:ro
+      - public:/var/www/html/public:ro # needed to serve static files from the app container
 
   app:
     image: ghcr.io/ucfopen/materia:app-v9.0.1
@@ -35,8 +35,8 @@ services:
       - AUTH_SIMPLEAUTH_SALT=SEE_README
       - CIPHER_KEY=SEE_README
     volumes:
-      - public:/var/www/html/public
-      - uploaded_media:/var/www/html/fuel/packages/materia/media
+      - public:/var/www/html/public # needed to provide static js/css files to the webserver
+      - uploaded_media:/var/www/html/fuel/packages/materia/media # storage for uploaded media
     networks:
       - backend
 
