@@ -26,7 +26,7 @@ This is super cut and dry example of what it takes to build and host a productio
    ```
 
 2. Setup Webserver
-   Note that this install assumes there is a load balancer in front of the webserver that is responsible for https, but will talk to the webserver over port 80.  We'll use the [nginx config built into the docker image](https://github.com/ucfopen/Materia/blob/v9.0.1/docker/config/nginx/nginx-production.conf).  If you want to the webserver to handle secure connections directly, you may find some useful hints in nginx-dev.conf.  You'll need a cert, and you'll need to provide it to the container in one way or another.
+   Note that this install assumes there is a load balancer in front of the webserver that is responsible for https, but will talk to the webserver over port 80.  We'll use the [nginx config built into the docker image](https://github.com/ucfopen/Materia/blob/v9.0.1/docker/config/nginx/nginx-production.conf).  If you want to the webserver to handle secure connections directly, you may find some useful hints in [nginx-dev.conf](https://github.com/ucfopen/Materia/blob/master/docker/config/nginx/nginx-dev.conf).  You'll need a cert, and you'll need to provide it to the container in one way or another.
 
 3. Generate a few random keys
    FuelPHP asks for some randomized seeds to do some of it's internal hashing and encryption.  Set these by providing values for AUTH_SALT, AUTH_SIMPLEAUTH_SALT, and CIPHER_KEY defined in the docker-compose file.
