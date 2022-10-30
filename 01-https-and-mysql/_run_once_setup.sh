@@ -13,3 +13,5 @@ docker-compose run --rm app /wait-for-it.sh db:3306 --timeout=120 --strict -- co
 
 # ask materia to install the widgets defined in the config file
 docker-compose run --rm app bash -c 'php oil r widget:install_from_config'
+
+echo "run 'docker compose up -d' to start Materia"

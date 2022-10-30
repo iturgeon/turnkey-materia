@@ -35,7 +35,7 @@ The step by step instructions below can be run just by executing the included sc
 4. Run Materia
    Now we can rely on docker compose to download a few containers and start Materia.
    ```
-   docker-compose up
+   docker-compose up -d
    ```
 
 5. Install Widgets
