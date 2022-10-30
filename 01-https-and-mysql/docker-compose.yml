@@ -5,6 +5,7 @@ services:
   webserver:
     image: ghcr.io/ucfopen/materia:webserver-v9.0.1
     platform: linux/amd64  # needed to get mysql container to run on m1 macs
+    restart: unless-stopped
     networks:
       - frontend
       - backend
@@ -22,6 +23,7 @@ services:
 
   app:
     image: ghcr.io/ucfopen/materia:app-v9.0.1
+    restart: unless-stopped
     links:
       - db
     env_file: .env
@@ -37,6 +39,7 @@ services:
   db:
     image: mysql:5.7.34
     platform: linux/amd64 # needed to get mysql container to run on m1 macs
+    restart: unless-stopped
     # ports:
     #   - 3306:3306
     environment:

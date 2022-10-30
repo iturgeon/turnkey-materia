@@ -4,6 +4,7 @@ services:
 
   elb:
     image: bostonuniversity/elb-simulator:latest
+    restart: unless-stopped
     ports:
       - "443:443"
     environment:
@@ -15,6 +16,7 @@ services:
 
   webserver:
     image: ghcr.io/ucfopen/materia:webserver-v9.0.1
+    restart: unless-stopped
     networks:
       - frontend
       - backend
@@ -25,6 +27,7 @@ services:
 
   app:
     image: ghcr.io/ucfopen/materia:app-v9.0.1
+    restart: unless-stopped
     env_file: .env
     volumes:
       - public:/var/www/html/public # needed to provide static js/css files to the webserver
@@ -37,6 +40,7 @@ services:
   db:
     image: mysql:5.7.34
     platform: linux/amd64 # needed to get mysql container to run on m1 macs
+    restart: unless-stopped
     # ports:
     #   - 3306:3306
     environment:
