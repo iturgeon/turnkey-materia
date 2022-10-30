@@ -15,7 +15,6 @@ services:
 
   webserver:
     image: ghcr.io/ucfopen/materia:webserver-v9.0.1
-    platform: linux/amd64
     networks:
       - frontend
       - backend
@@ -26,17 +25,25 @@ services:
 
   app:
     image: ghcr.io/ucfopen/materia:app-v9.0.1
-    environment:
-      # View Materia README for env settings
-      - DATABASE_URL=mysql://materia:odin@host.docker.internal:3306/materia
-      - LTI_SECRET=materia-lti-secret
-      - SYSTEM_EMAIL=noReply@materia.edu
-      - AUTH_SALT=SEE_README
-      - AUTH_SIMPLEAUTH_SALT=SEE_README
-      - CIPHER_KEY=SEE_README
+    env_file: .env
     volumes:
       - public:/var/www/html/public # needed to provide static js/css files to the webserver
       - uploaded_media:/var/www/html/fuel/packages/materia/media # storage for uploaded media
+    networks:
+      - backend
+
+  # SUGGEST: In a solid production setup,  this will probably be an external database server
+  # If you do use an external server, you'll need to change DATABASE_URL onn the app server
+  db:
+    image: mysql:5.7.34
+    platform: linux/amd64 # needed to get mysql container to run on m1 macs
+    # ports:
+    #   - 3306:3306
+    environment:
+      - MYSQL_ROOT_PASSWORD=drRoots
+      - MYSQL_USER=materia
+      - MYSQL_PASSWORD=odin
+      - MYSQL_DATABASE=materia
     networks:
       - backend
 

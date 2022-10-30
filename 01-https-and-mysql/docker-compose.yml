@@ -1,0 +1,58 @@
+version: '3.5'
+
+services:
+
+  webserver:
+    image: ghcr.io/ucfopen/materia:webserver-v9.0.1
+    platform: linux/amd64  # needed to get mysql container to run on m1 macs
+    networks:
+      - frontend
+      - backend
+    depends_on:
+      - app
+    ports:
+      - 443:443
+      - 80:80
+      - 8080:8080
+    volumes:
+      - public:/var/www/html/public:ro # needed to efficiently serve static files generated on the app container
+      - ./key.pem:/etc/nginx/conf.d/key.pem:ro
+      - ./cert.pem:/etc/nginx/conf.d/cert.pem:ro
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+
+  app:
+    image: ghcr.io/ucfopen/materia:app-v9.0.1
+    links:
+      - db
+    env_file: .env
+    volumes:
+      - public:/var/www/html/public # needed to provide static js/css files to the webserver
+      - uploaded_media:/var/www/html/fuel/packages/materia/media # storage for uploaded media
+      - ./wait-for-it.sh:/wait-for-it.sh # added just to make the tutorial easier to script
+    networks:
+      - backend
+
+  # SUGGEST: In a solid production setup,  this will probably be an external database server
+  # If you do use an external server, you'll need to change DATABASE_URL onn the app server
+  db:
+    image: mysql:5.7.34
+    platform: linux/amd64 # needed to get mysql container to run on m1 macs
+    # ports:
+    #   - 3306:3306
+    environment:
+      - MYSQL_ROOT_PASSWORD=drRoots
+      - MYSQL_USER=materia
+      - MYSQL_PASSWORD=odin
+      - MYSQL_DATABASE=materia
+    networks:
+      - backend
+
+networks:
+  frontend:
+    name: materia_frontend
+  backend:
+    name: materia_backend
+
+volumes:
+  uploaded_media: {}
+  public: {}
