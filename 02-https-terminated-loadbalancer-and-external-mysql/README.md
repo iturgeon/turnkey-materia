@@ -21,8 +21,9 @@ The step by step instructions below can be run just by executing the included sc
 3. Migrate Database and Initialize.
    Set up the database so that it has the required tables and data.  Materia uses database migration files handled by our PHP framework for this.  This command will also initialize a few settings and users to get you started. Watch the output so you can log in with a randomized password!
    ```bash
-   docker-compose run --rm app composer oil-install-quiet
+   docker-compose run --rm app /wait-for-it.sh db:3306 --timeout=120 --strict -- composer oil-install-quiet
    ```
+   Note that we're using a script called wait-for-it to give the mysql container time to initialize before running our script.
 
 4. Run Materia
    Now we can rely on docker compose to download a few containers and start Materia.
