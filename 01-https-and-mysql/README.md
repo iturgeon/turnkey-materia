@@ -37,14 +37,10 @@ The step by step instructions below can be run just by executing the included sc
    ```
    docker-compose up -d
    ```
+   Verify it's running by visiting https://localhost
 
 5. Install Widgets
-   There are no widgets installed in Materia yet, so we'll want to do that now. To get started, it probably makes sense to install the default widgets.
+   There are no widgets installed in Materia yet, so we'll want to do that now. To get started, it probably makes sense to install the default widgets.  This command will attach to the already running container and run the widget installer.
    ```bash
    docker-compose exec app bash -c 'php oil r widget:install_from_config'
-   ```
-
-6. Run everything, visit https://localhost
-   ```bash
-   docker-compose up
    ```
