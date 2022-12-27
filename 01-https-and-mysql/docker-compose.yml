@@ -22,13 +22,13 @@ services:
       - ./nginx.conf:/etc/nginx/nginx.conf:ro
 
   app:
-    image: ghcr.io/ucfopen/materia:app-v9.0.1
+    image: docker.io/iturgeon/materia:app-10.0.0-alpha-10
     restart: unless-stopped
     links:
       - db
     env_file: .env
     volumes:
-      - public:/var/www/html/public # needed to provide static js/css files to the webserver
+      - public:/var/www/html/public # needed to provide static js/css files to the webserver NOTE: if changes in static files don't appear, delete this volume and restart the containers
       - uploaded_media:/var/www/html/fuel/packages/materia/media # storage for uploaded media
       - ./wait-for-it.sh:/wait-for-it.sh # added just to make the tutorial easier to script
     networks:
@@ -47,6 +47,8 @@ services:
       - MYSQL_USER=materia
       - MYSQL_PASSWORD=odin
       - MYSQL_DATABASE=materia
+    volumes:
+      - mysql:/var/lib/mysql
     networks:
       - backend
 
@@ -59,3 +61,4 @@ networks:
 volumes:
   uploaded_media: {}
   public: {}
+  mysql: {}

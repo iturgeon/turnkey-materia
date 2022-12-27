@@ -23,6 +23,9 @@ The step by step instructions below can be run just by executing the included sc
 	docker-compose run --rm --no-deps app php -r "echo('AUTH_SIMPLEAUTH_SALT=' . sodium_bin2hex(random_bytes(SODIUM_CRYPTO_STREAM_KEYBYTES)) . \"\n\");" >> .env
 	docker-compose run --rm --no-deps app php -r "echo('AUTH_SALT=' . sodium_bin2hex(random_bytes(SODIUM_CRYPTO_STREAM_KEYBYTES)) . \"\n\");" >> .env
 	docker-compose run --rm --no-deps app php -r "echo('CIPHER_KEY=' . sodium_bin2hex(random_bytes(SODIUM_CRYPTO_STREAM_KEYBYTES)) . \"\n\");" >> .env
+   docker-compose run --rm --no-deps app php -r "echo('CRYPTO_KEY=' . sodium_bin2hex(random_bytes(SODIUM_CRYPTO_STREAM_KEYBYTES)) . \"\n\");" >> .env
+   docker-compose run --rm --no-deps app php -r "echo('CRYPTO_IV=' . sodium_bin2hex(random_bytes(SODIUM_CRYPTO_STREAM_KEYBYTES)) . \"\n\");" >> .env
+   docker-compose run --rm --no-deps app php -r "echo('CRYPTO_HMAC=' . sodium_bin2hex(random_bytes(SODIUM_CRYPTO_STREAM_KEYBYTES)) . \"\n\");" >> .env
 	```
 
 3. Migrate Database and Initialize.
