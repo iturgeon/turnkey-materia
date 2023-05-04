@@ -31,7 +31,7 @@ services:
     env_file: .env
     volumes:
       - public:/var/www/html/public # needed to provide static js/css files to the webserver
-      - uploaded_media:/var/www/html/fuel/packages/materia/media # storage for uploaded media
+      - uploaded_media:/var/www/html/fuel/app/media # storage for uploaded media
     networks:
       - backend
 
